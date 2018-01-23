@@ -1,5 +1,7 @@
 #pragma once
+//#include "stdafx.h"
 #include<iostream>
+
 #include"HashNode.h"
 #include"GenrateKey.h"
 using namespace std;
@@ -9,14 +11,14 @@ template<class K, class V, size_t TABLE_SIZE>
 class HashMap
 {
 private:
-	HashNode<K, V> *table;
+	HashNode<K, V> **table;
 	GenrateKey<K, TABLE_SIZE> genrate_key;
 	int size;
 	HashNode<K, V> *dummy;
 public:
 	HashMap()
 	{
-		table = new HashNode<K, V>[TABLE_SIZE];
+		table = new HashNode<K, V>*[TABLE_SIZE];
 		for (int i = 0; i<TABLE_SIZE; i++)
 		{
 			table[i] = NULL;
@@ -24,16 +26,16 @@ public:
 	}
 	void put(const K key, const V value)
 	{
-		HashNode<K, V> *temp = new HasNode<K, V>(key, value);
+		HashNode<K, V> *temp = new HashNode<K, V>(key, value);
 		unsigned long hash_index = genrate_key(key);
-		while (table[hash_index] != NULL && table[hash_index]->->get_key() != key)
+		while (table[hash_index] != NULL && table[hash_index]->get_key() != key)
 		{
 			hash_index++;
 			hash_index %= TABLE_SIZE;
 		}
-		if (table[hash_index] == NULL || tabel[hash_index = -1])
+		if (table[hash_index] == NULL || table[hash_index = -1])
 			size++;
-		tabel[hash_index] = temp;
+		table[hash_index] = temp;
 	}
 	void remove(const K key)
 	{
@@ -42,7 +44,7 @@ public:
 		{
 			if (table[hash_index]->get_key() == key)
 			{
-				table[hash_index]=dummy;
+				table[hash_index] = dummy;
 				size--;
 				return;
 			}
@@ -54,7 +56,8 @@ public:
 	bool get(const K key, V &value)
 	{
 		unsigned long hash_index = genrate_key(key);
-		while (table[hash_index != NULL])
+		HashNode<K, V> *node = table[hash_index];
+		while (node != NULL)
 		{
 			if (table[hash_index]->get_key() == key)
 			{
