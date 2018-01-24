@@ -29,7 +29,7 @@ public:
 		while (table[hash_index] != NULL && table[hash_index]->get_key() != key)
 		{
 			i++;
-			hash_index++;
+			hash_index = hash_index + i*i;
 			hash_index %= TABLE_SIZE;
 		}
 		if (table[hash_index] == NULL || table[hash_index]->get_value() == -1)
@@ -49,7 +49,7 @@ public:
 				return;
 			}
 			i++;
-			hash_index++;
+			hash_index = hash_index + i*i;
 			hash_index %= TABLE_SIZE;
 		}
 		return;
@@ -67,7 +67,7 @@ public:
 				return true;
 			}
 			i++;
-			hash_index++;
+			hash_index= hash_index+i*i;
 			hash_index %= TABLE_SIZE;
 		}
 		return false;
@@ -75,11 +75,6 @@ public:
 	void display_size()
 	{
 		cout << size << endl;
-	}
-	~HashMap()
-	{
-		delete[]table;
-		delete[]dummy;
 	}
 
 };
